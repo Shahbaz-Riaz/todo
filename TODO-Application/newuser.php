@@ -24,7 +24,7 @@
                 <table>
                     <tr>
                         <td> <pre>User Name </pre> </td>
-                        <td> <input type="text" name="username" placeholder=" Dhiraj" autocomplete="off"> </td>
+                        <td> <input type="text" name="username" placeholder=" enter name" autocomplete="off"> </td>
                     </tr>
                     <tr>
                         <td> <pre>Password </pre> </td>

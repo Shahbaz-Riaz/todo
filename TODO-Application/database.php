@@ -43,7 +43,8 @@
     }
 
     function connectdatabase() {
-        return mysqli_connect("127.0.0.1:3306", "dhiraj", "pass.1.11", "todo");
+        return mysqli_connect("localhost", "root", "", "todo");
+
     }
 
     function loggedin() {

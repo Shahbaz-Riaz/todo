@@ -25,7 +25,7 @@
                 <tbody>
                     <tr>
                          <td> <pre>Name </pre> </td>
-                         <td> <input size="25" type="text" name="username" placeholder=" dhruv"  autocomplete="off" required></td>
+                         <td> <input size="25" type="text" name="username" placeholder=" enter name"  autocomplete="off" required></td>
                     </tr>
                     <tr>
                          <td> <pre>Password </pre> </td>
