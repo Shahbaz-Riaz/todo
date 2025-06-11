@@ -11,40 +11,12 @@
 </html>
 
 <?php
-    session_start();
-    if(isset($_POST['Delete']))
-    {
-        if(!empty($_POST['check_list']))
-        {
-            $tasks = $_POST['check_list'];
-            $length = count($tasks);
-            for ($i = 0; $i < $length; $i++) {
-                deleteTodoItem($_SESSION['username'], $tasks[$i]);
-            }
-        }
-    }
-    else if(isset($_POST['Save']))
-    {
-        $conn = connectdatabase();
-        $sql = "UPDATE todo.tasks SET done = 0";
-        $result = mysqli_query($conn, $sql); 
-        mysqli_close($conn);
-
-        if(!empty($_POST['check_list']))
-        {
-            $tasks = $_POST['check_list'];
-            $length = count($tasks);
-            if($length > 0) {
-                for ($i = 0; $i < $length; $i++) {
-                    updateDone($tasks[$i]);
-                }
-            }
-        }
+    if(!isset($_SESSION)) {
+        session_start();
     }
 
     function connectdatabase() {
         return mysqli_connect("localhost", "root", "", "todo");
-
     }
 
     function loggedin() {
@@ -52,7 +24,7 @@
     }
 
     function logout() {
-        $_SESSION['error'] = "&nbsp; Succesfully logout !!";
+        $_SESSION['error'] = "&nbsp; Successfully logout !!";
         unset($_SESSION['username']);
     }
 
@@ -158,62 +130,5 @@
             $_SESSION['error'] = "&nbsp; Invalid captcha code !! ";
             header('location:login.php');
         }
-    }
-    
-    function getTodoItems($username) {
-
-        $conn = connectdatabase();
-        $sql = "SELECT * FROM tasks WHERE username = '".$username."'";
-        
-        $result = mysqli_query($conn, $sql);
-
-        echo "<form method='POST'>";
-        echo "<pre>";
-        if ($result and mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-
-                spaces(15);
-                if($row['done']) {
-                    echo "<input type='checkbox' checked class='largerCheckbox' name='check_list[]' value='".$row["taskid"] ."'>";
-                }
-                else {
-                    echo "<input type='checkbox' class='largerCheckbox' name='check_list[]' value='".$row["taskid"] ."'>";
-                }
-                echo "<td> " . $row["task"] . "</td>";
-                echo "<br>";
-            }
-        }
-        echo "</pre> <hr>";
-        spaces(35);
-        echo "<input type='submit' name='Delete' value='Delete'/>";
-        spaces(10);
-        echo "<input type='submit' name='Save' value='Save'/>";
-        echo "</form>";
-        echo "<br><br>";
-        mysqli_close($conn);
-    }
-
-    function addTodoItem($username, $todo_text) 
-    {
-        $conn = connectdatabase();
-        $sql = "INSERT INTO todo.tasks(username, task, done) VALUES ('".$username."','".$todo_text."',0);";
-        $result = mysqli_query($conn, $sql);
-        mysqli_close($conn);
-    }
-    
-    function deleteTodoItem($username, $todo_id) 
-    {
-        $conn = connectdatabase();
-        $sql = "DELETE FROM todo.tasks WHERE taskid = ".$todo_id." and username = '".$username."';";
-        $result = mysqli_query($conn, $sql);
-        mysqli_close($conn);
-    }
-
-    function updateDone($todo_id) 
-    {
-        $conn = connectdatabase();
-        $sql = "UPDATE todo.tasks SET done = '1' WHERE (taskid = '".$todo_id."');";
-        $result = mysqli_query($conn, $sql);   
-        mysqli_close($conn);
     }
 ?>
